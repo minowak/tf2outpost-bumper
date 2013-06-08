@@ -1,10 +1,15 @@
 // Writes
+var dLog = "";
 function docWrite(msg) {
-	// TODO date time
 	var d = new Date();
-	document.write('<link rel="stylesheet" type="text/css" href="style.css">');
+	// document.write('<link rel="stylesheet" type="text/css" href="style.css">');
 	var tag = '[' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() + ']'
-	document.write(tag + msg + '<br>');
+	var dMesg = tag + msg + '<br>';
+	document.write(dMesg);
+	dLog += dMesg;
+	chrome.storage.local.set({'log': dLog}, function(v) {
+
+	})
 }
 
 function getCookies(domain, name, callback) {
