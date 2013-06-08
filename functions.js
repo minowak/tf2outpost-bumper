@@ -10,16 +10,46 @@ function docWrite(msg) {
 	document.write(msg);
 }
 
-// Main
-getCookies('tf2outpost.com', 'tf2op_userid', function(cookie) {
-	if(cookie && cookie.value) {
-		// already logged in
-    	var userid = cookie.value;
-    	final var tradesUrl = "http://tf2outpost.com/trades";
+// Returns html of op trades page
+function getTrades(callback) {
+	var link = "http://www.tf2outpost.com/trades";
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", link, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            callback(xhr.responseText);
+        }
+    };
+    xhr.send(null);
+}
 
-    	docWrite(cookie.value);
-	} else {
-		// login
-		window.open('http://tf2outpost.com/login', '_newtab');
-	}
-});
+// call this function every 30-35 minutes
+window.setInterval(function() {
+	// Main
+	getCookies('tf2outpost.com', 'tf2op_userid', function(cookie) {
+		if(cookie && cookie.value) {
+			// already logged in
+	    	var userid = cookie.value;
+
+	    	// get trades
+			getTrades(function(text) {
+				var lines = text.split(/\r?\n/);
+				var regexp = /href="\/trade\/[0-9]+\/bump/g;
+
+				docWrite('Your trades:<br><br>');
+
+				for(var i = 0 ; i < lines.length ; i++) {
+					var line = lines[i];
+				 	if(line.match(regexp)) {
+				 		var bumpLink = line.substring(line.indexOf("href=") + 6, line.indexOf("bump") + 4);
+				 		docWrite('link: ' + bumpLink + '<br>');
+				 		// bump trade
+				 	}
+				}
+			});
+		} else {
+			// login
+			window.open('http://tf2outpost.com/login', '_newtab');
+		}
+	});
+}, 1850000 + 300000 * Math.random());
