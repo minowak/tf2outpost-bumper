@@ -1,0 +1,17 @@
+{
+	"manifest_version": 2,
+
+	"name": "TF2 Outpost AutoBumper",
+	"description": "Auto bumps your trades on TF2 Outpost.",
+	"version": "1.0",
+
+	"permissions": [
+		"*://*.tf2outpost.com/",
+		"cookies"
+	],
+
+	"browser_action": {
+		"default_icon": "icon.png",
+		"default_popup": "popup.html"
+	}
+}
