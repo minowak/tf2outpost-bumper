@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 
-	"name": "TF2 AutoBumper",
+	"name": "TF2 Outpost AutoBumper",
 	"description": "Auto bumps your trades on TF2 Outpost.",
 	"version": "1.0",
 
